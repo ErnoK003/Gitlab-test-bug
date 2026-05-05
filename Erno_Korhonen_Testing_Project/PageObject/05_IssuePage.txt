@@ -1,0 +1,80 @@
+### **Issue management Testsuit**
+
+#******************** Settings ************************
+
+*** Settings ***
+Documentation	Issue Test scenario. CRUD Operation: Create, Read, Update, Delete
+
+# TODO: Write Precondition and Postcondition, Tags 
+
+Pre Condition	Active session in Gitlab, Gitlab Project
+Post Condition	Close All Gitlab Sessions
+Tags	Issue management, Work items
+
+#******************* Common Variables ********************
+
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+# TODO: Write Issue creation field variables, Updated name of the issue
+
+GroupName = xyz-group
+ProjectName = Project name
+WorkItemsUrl = https://gitlab.com/[GroupName]/[ProjectName]/-/work_items
+IssueName = XYZ
+IssueDesc = xxxxxyyyyyzzzzz
+EditedName = ZXY
+IssueID = ###
+
+
+
+#******************** Test Cases *************************
+
+*** Test Cases ***
+
+# TODO: Write Positive Test Cases and Test Process steps
+
+# Positive Test examples are below write test process steps for each below test case
+
+	Issue-1: Create an issue
+		Navigate to Work Items Page  WorkItemsUrl
+		Select New item
+		Verify that correct Project and correct Item Type is selected
+		Input Title  IssueName
+		Input Description  IssueDesc
+		Select Create Issue
+		Verify that the Issue appears in the Item list
+
+ 	Issue-2: Update name of an issue
+		Navigate to Work Items Page  WorkItemsUrl
+		Select the Issue
+		Select edit
+		Input Title  EditedName
+		Select Save Changes
+		Verify that the Issue's name was updated
+
+	Issue-3: Create second issue with previous updated name
+		Navigate to Work Items Page  WorkItemsUrl
+		Select New item
+		Verify that correct Issue Type is selected
+		Input Title  EditedName
+		Input Description  IssueDesc
+		Select Create Issue
+		Verify that the Issue has appeared in the Work Items list
+
+    Issue-4: Delete first issue
+		Navigate to the Work items page  WorkItemsUrl
+			*Issues are numbered starting from zero. First issue's ID is always less than second issue.
+			This means that first issue's ID is 1, IssueID = 1
+			Issue numbers can be found from Work item list
+		Find out the issue number
+			Under the 2 issues with the same name, there is [GroupName]/[Projectname]#[IssueID]
+			The smaller one is the "first" one.
+			Take the number, IssueID = #
+		Navigate to the Issue's page  [WorkItemsUrl]/[IssueID]
+		Select More Actions (⋮)
+		Select Delete Issue
+		Select Delete Issue (Confirm window)
+		Verify that the issue has been deleted. Verify by ID.

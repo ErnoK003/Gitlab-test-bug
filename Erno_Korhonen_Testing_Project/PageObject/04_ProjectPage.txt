@@ -1,0 +1,84 @@
+### **Project management Testsuit**
+
+#******************** Settings ************************
+
+*** Settings ***
+
+# TODO: Write Dcocumentation e.g. Project Test scenario. CRUD Operation: Create, Read, Update, Delete
+
+Documentation	Testing project management functions; Create, Read, Update & Delete.
+
+# TODO: Write Precondition, Postcondition, Tags
+
+Pre Condition	Active session in Gitlab
+Post Condition	Close All Gitlab Sessions
+Tags	Project creation, Project management, TS-1-Project
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+# TODO: Write Project creation field variables
+
+NewProjectUrl = https://gitlab.com/projects/new
+ProjectName = XYZ
+GroupName = xyz-group
+TemplateName = Ruby on Rails
+EditProjectUrl = https://gitlab.com/[GroupName]/[ProjectName]/edit
+EditedName = XXYYZZ
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# TODO: Write Positive and Negative Test Cases and Test Process steps
+
+# Positive Test examples are below write test process steps for each below test case
+
+	Create-1: Create blank project
+		Navigate to Projects Page  NewProjectUrl
+		Select Create blank project
+		Input Project name  ProjectName
+		Select group for Project URL  GroupName
+		Select Create Project
+		Verify That Info Message should show Project  'ProjectName'  was successfully created.
+
+	Create-2: Create template project 
+		Navigate to Projects Page  NewProjectUrl
+		Select Create from template
+		Select Template  TemplateName
+		Input Project name  ProjectName
+		Select group for Project URL  GroupName
+		Select Create Project
+		Wait for importing
+		Verify That Info Message should show The project was successfully imported.
+
+	Update-1: Update name of template project
+		Navigate to EditProjectUrl, where  ProjectName  is name of existing template project.
+		Input Project name  EditedName
+		Select Save changes
+		Verify That Info Message should show Project ' EditedName ' was successfully updated.
+
+	Delete-1: Delete template project
+		Navigate to EditProjectUrl, where  ProjectName  is name of existing template project.
+		Expand Advanced
+		Find Delete project
+		Select Delete
+		Input  GroupName/ProjectName
+		Select Yes, delete project
+		Verify that the deleted project shows up in Inactive -tab under Projects.
+
+# Negative Test examples are below write test process steps for each below test case
+
+	Create-3: Create a blank project with the previous same name
+		Navigate to Projects Page  NewProjectUrl
+		Select Create blank project
+		Input existing Project name  ProjectName
+		Verify That Error Message should show...
+			The form contains the following errors:
+				Project namespace name has already been taken
+				Name has already been taken
+				Path has already been taken
+
